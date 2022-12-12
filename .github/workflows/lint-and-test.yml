@@ -1,0 +1,72 @@
+name: lint-and-test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+
+      - uses: actions/setup-go@c4a742cab115ed795e34d4513e2cf7d472deb55f # v3.3.1
+        with:
+          go-version: 1.19
+
+      - name: install jsonnet-bundler, jsonnetfmt, and jsonnet-lint
+        run: |
+          go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+          go install github.com/google/go-jsonnet/cmd/jsonnet-lint@latest
+
+      - name: check for fmt
+        run: |
+          find . -name "*.jsonnet" -or -name "*.libsonnet" | xargs -L1 jsonnetfmt --test
+
+      - name: check for lint
+        run: |
+          export JSONNET_PATH="$(pwd)/vendor:$(pwd)"
+          find . -name "*.jsonnet" -or -name "*.libsonnet" -not -path "*/vendor/*" \
+            | xargs -L1 -t jsonnet-lint
+
+  golangci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@c4a742cab115ed795e34d4513e2cf7d472deb55f # v3.3.1
+        with:
+          go-version: 1.19
+
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@0ad9a0988b3973e851ab0a07adf248ec2e100376 # v3.3.1
+        with:
+          version: v1.50.1
+          args: "--timeout=10m"
+          working-directory: "test"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+
+      - uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
+        with:
+          terraform_version: 1.3.6
+          terraform_wrapper: false
+
+      - uses: actions/setup-go@c4a742cab115ed795e34d4513e2cf7d472deb55f # v3.3.1
+        with:
+          go-version: 1.19
+          cache: true
+          cache-dependency-path: test/go.sum
+
+      - name: run tests
+        run: |
+          cd test
+          go test -v .

@@ -1,3 +1,5 @@
+local helpers = import './helpers.libsonnet';
+
 // withProvider injects a new Terraform provider block into the root configuration.
 //
 // Args:
@@ -154,6 +156,36 @@ local withOutput(name, value, description=null) =
   };
 
 
+// withOutputMap injects all the key value pairs of the input map as Terraform output blocks into the root
+// configuration.
+//
+// Args:
+//   map (map[str, str]): Map of output keys to output values.
+//
+// Returns:
+//   A mixin object that injects all the key value pairs as output blocks.
+local withOutputMap(map) =
+  helpers.mergeAll([
+    withOutput(k, std.get(map, k))
+    for k in std.objectFields(map)
+  ]);
+
+
+// withOutputList injects the list of output configurations as Terraform output blocks into the root configuration.
+//
+// Args:
+//   outputs (list[obj]): List of output configurations, where each element describes an output block. Each element
+//                        should have the keys n (for name), v (for value), and d (for description).
+//
+// Returns:
+//   A mixin object that injects all the outputs as output blocks.
+local withOutputList(outputs) =
+  helpers.mergeAll([
+    withOutput(o.n, o.v, std.get(o, 'd', null))
+    for o in outputs
+  ]);
+
+
 // withLocal injects a new Terraform local definition into the root configuration.
 //
 // Args:
@@ -163,10 +195,39 @@ local withOutput(name, value, description=null) =
 // Returns:
 //   A mixin object that injects the new local into the root Terraform configuration.
 local withLocal(name, value) = {
-  'local'+: {
+  locals+: {
     [name]: value,
   },
 };
+
+
+// withLocalMap injects all the key value pairs of the input map as Terraform locals into the root configuration.
+//
+// Args:
+//   map (map[str, str]): Map of local keys to local values.
+//
+// Returns:
+//   A mixin object that injects all the key value pairs as locals.
+local withLocalMap(map) =
+  helpers.mergeAll([
+    withLocal(k, std.get(map, k))
+    for k in std.objectFields(map)
+  ]);
+
+
+// withLocalList injects the list of local configurations as Terraform locals into the root configuration.
+//
+// Args:
+//   locals (list[obj]): List of local configurations, where each element describes a local. Each element should have
+//                       the keys n (for name) and v (for value).
+//
+// Returns:
+//   A mixin object that injects all the locals into the Terraform config.
+local withLocalList(locals) =
+  helpers.mergeAll([
+    withLocal(l.n, l.v)
+    for l in locals
+  ]);
 
 
 {
@@ -176,5 +237,9 @@ local withLocal(name, value) = {
   withModule:: withModule,
   withVariable:: withVariable,
   withOutput:: withOutput,
+  withOutputMap:: withOutputMap,
+  withOutputList:: withOutputList,
   withLocal:: withLocal,
+  withLocalMap:: withLocalMap,
+  withLocalList:: withLocalList,
 }

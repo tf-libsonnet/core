@@ -23,6 +23,7 @@ local withProvider(name, attrs, alias=null) =
     },
   };
 
+
 // withResource injects a new Terraform resource block into the root configuration.
 //
 // Args:
@@ -40,6 +41,7 @@ local withResource(type, label, attrs) = {
   },
 };
 
+
 // withData injects a new Terraform data source block into the root configuration.
 //
 // Args:
@@ -56,6 +58,7 @@ local withData(type, label, attrs) = {
     },
   },
 };
+
 
 // withModule injects a new module block into the root configuration.
 //
@@ -83,6 +86,7 @@ local withModule(name, source, inputs, version=null) =
         + inputs,
     },
   };
+
 
 // withVariable injects a new Terraform variable block into the root configuration.
 //
@@ -124,6 +128,7 @@ local withVariable(name, isRequired=true, type=null, description=null, default=n
     },
   };
 
+
 // withOutput injects a new Terraform output block into the root configuration.
 //
 // Args:
@@ -148,6 +153,7 @@ local withOutput(name, value, description=null) =
     },
   };
 
+
 // withLocal injects a new Terraform local definition into the root configuration.
 //
 // Args:
@@ -161,6 +167,7 @@ local withLocal(name, value) = {
     [name]: value,
   },
 };
+
 
 {
   withProvider:: withProvider,

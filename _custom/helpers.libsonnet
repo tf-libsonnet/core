@@ -7,7 +7,7 @@
 // Returns:
 //   A single object that is the result of merging all the input objects together.
 local mergeAll(objs) = std.foldl(
-  function(x, y) = (x + y),
+  function(x, y) (x + y),
   objs,
   {},
 );

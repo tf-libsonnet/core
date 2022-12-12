@@ -28,6 +28,15 @@ local withProvider(name, attrs, alias=null) =
 
 // withResource injects a new Terraform resource block into the root configuration.
 //
+// Additionally, this inserts a private function into the _ref attribute that generates references to attributes of the
+// resource. For example, if you added a new resource using:
+//
+//   withResource('null_resource', 'foo', {})
+//
+// You can get the reference to the `id` field of the `null_resource` using the reference:
+//
+//   $._ref.null_resource.foo.get('id')
+//
 // Args:
 //   type (string): The resource type to create (e.g., aws_instance, null_resource, etc).
 //   label (string): The label to apply to the instance of the resource.
@@ -41,10 +50,32 @@ local withResource(type, label, attrs) = {
       [label]: attrs,
     },
   },
+
+  _ref+:: {
+    [type]+:: {
+      [label]:: {
+        getRef:: function(attr) (
+          type + '.' + label + '.' + attr
+        ),
+        get:: function(attr) (
+          '${' + self.getRef(attr) + '}'
+        ),
+      },
+    },
+  },
 };
 
 
 // withData injects a new Terraform data source block into the root configuration.
+//
+// Additionally, this inserts a private function into the _ref attribute that generates references to attributes of the
+// data source. For example, if you added a new data source using:
+//
+//   withData('azurerm_virtual_network', 'foo', {})
+//
+// You can get the reference to the `id` field of the `azurerm_virtual_network` data source using the reference:
+//
+//   $._ref.data.azurerm_virtual_network.foo.get('id')
 //
 // Args:
 //   type (string): The data source type to create (e.g., aws_instance, local_file, etc).
@@ -59,10 +90,34 @@ local withData(type, label, attrs) = {
       [label]: attrs,
     },
   },
+
+  _ref+:: {
+    data+:: {
+      [type]+:: {
+        [label]:: {
+          getRef:: function(attr) (
+            'data.' + type + '.' + label + '.' + attr
+          ),
+          get:: function(attr) (
+            '${' + self.getRef(attr) + '}'
+          ),
+        },
+      },
+    },
+  },
 };
 
 
 // withModule injects a new module block into the root configuration.
+//
+// Additionally, this inserts a private function into the _ref attribute that generates references to attributes of the
+// module call. For example, if you added a new module call using:
+//
+//   withModule('foo', 'some-source', {})
+//
+// You can get the reference to the `id` output using the reference:
+//
+//   $._ref.module.foo.get('id')
 //
 // Args:
 //   name (string): The name of the module block.
@@ -86,6 +141,19 @@ local withModule(name, source, inputs, version=null) =
         { source: source }
         + maybeVersion
         + inputs,
+    },
+
+    _ref+:: {
+      module+:: {
+        [name]:: {
+          getRef:: function(attr) (
+            'module.' + name + '.' + attr
+          ),
+          get:: function(attr) (
+            '${' + self.getRef(attr) + '}'
+          ),
+        },
+      },
     },
   };
 

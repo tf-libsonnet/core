@@ -1,4 +1,4 @@
-local h = import '_custom/helpers.libsonnet';
+local h = import 'src/_custom/helpers.libsonnet';
 
 local obj = {
   one: 1,

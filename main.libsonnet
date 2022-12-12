@@ -1,1 +1,1 @@
-import '_custom/main.libsonnet'
+import 'src/_custom/main.libsonnet'

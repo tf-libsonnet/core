@@ -7,13 +7,39 @@ local h = import './helpers.libsonnet';
 //   attrs (obj): The attributes to apply to the provider block being injected.
 //   alias (string): The alias to bind to the provider block. When null, the alias attribute is omitted from the
 //                   provider attributes.
+//   src (string): Where to source the provider. If specified, an entry to required_providers will be added specifying the
+//                 source. If both src and version is null, the required_providers entry is omitted.
+//   version (string): What version of the provider to use. If specified, an entry to required_providers will be added
+//                     specifying the version. If both src and version is null, the required_providers entry is omitted.
 //
 // Returns:
 //   A mixin object that injects the new provider block into the root Terraform configuration.
-local withProvider(name, attrs, alias=null) =
+local withProvider(name, attrs, alias=null, src=null, version=null) =
   local maybeAlias =
     if alias != null then
       { alias: alias }
+    else
+      {};
+
+  local maybeRequiredProviders =
+    if src != null || version != null then
+      {
+        terraform+: {
+          required_providers+: {
+            [name]: (
+              if src != null then
+                { source: src }
+              else
+                {}
+            ) + (
+              if version != null then
+                { version: version }
+              else
+                {}
+            ),
+          },
+        },
+      }
     else
       {};
 
@@ -23,7 +49,8 @@ local withProvider(name, attrs, alias=null) =
         maybeAlias + attrs,
       ],
     },
-  };
+  }
+  + maybeRequiredProviders;
 
 
 // withResource injects a new Terraform resource block into the root configuration.

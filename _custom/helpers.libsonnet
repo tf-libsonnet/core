@@ -13,6 +13,49 @@ local mergeAll(objs) = std.foldl(
 );
 
 
+// objItems takes an object and returns a list of objects with two attributes:
+// - k: The object key being iterated.
+// - v: The object value being iterated.
+//
+// This is useful when iterating the keys and values of an object. For example, if you had the object:
+//
+// {
+//   one: 1,
+//   two: 2,
+//   three: 3,
+// }
+//
+// You can create iterate the fields like so:
+//   [i.k + ' = ' + i.v for i in objItems(obj)]
+//
+// Args:
+//   obj (obj): The object whose fields and values to iterate.
+//
+// Returns:
+//   A list of objects with attributes k and v to denote the object keys and values.
+local objItems(obj) =
+  [
+    { k: k, v: std.get(obj, k) }
+    for k in std.objectFields(obj)
+  ];
+
+
+// objItemsAll is like objItems, but also includes hidden fields.
+//
+// Args:
+//   obj (obj): The object whose fields and values to iterate.
+//
+// Returns:
+//   A list of objects with attributes k and v to denote the object keys and values.
+local objItemsAll(obj) =
+  [
+    { k: k, v: std.get(obj, k) }
+    for k in std.objectFieldsAll(obj)
+  ];
+
+
 {
   mergeAll:: mergeAll,
+  objItems:: objItems,
+  objItemsAll:: objItemsAll,
 }

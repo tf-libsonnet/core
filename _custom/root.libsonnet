@@ -1,4 +1,4 @@
-local helpers = import './helpers.libsonnet';
+local h = import './helpers.libsonnet';
 
 // withProvider injects a new Terraform provider block into the root configuration.
 //
@@ -165,9 +165,9 @@ local withOutput(name, value, description=null) =
 // Returns:
 //   A mixin object that injects all the key value pairs as output blocks.
 local withOutputMap(map) =
-  helpers.mergeAll([
-    withOutput(k, std.get(map, k))
-    for k in std.objectFields(map)
+  h.mergeAll([
+    withOutput(i.k, i.v)
+    for i in h.objItems(map)
   ]);
 
 
@@ -180,7 +180,7 @@ local withOutputMap(map) =
 // Returns:
 //   A mixin object that injects all the outputs as output blocks.
 local withOutputList(outputs) =
-  helpers.mergeAll([
+  h.mergeAll([
     withOutput(o.n, o.v, std.get(o, 'd', null))
     for o in outputs
   ]);
@@ -209,9 +209,9 @@ local withLocal(name, value) = {
 // Returns:
 //   A mixin object that injects all the key value pairs as locals.
 local withLocalMap(map) =
-  helpers.mergeAll([
-    withLocal(k, std.get(map, k))
-    for k in std.objectFields(map)
+  h.mergeAll([
+    withLocal(i.k, i.v)
+    for i in h.objItems(map)
   ]);
 
 
@@ -224,7 +224,7 @@ local withLocalMap(map) =
 // Returns:
 //   A mixin object that injects all the locals into the Terraform config.
 local withLocalList(locals) =
-  helpers.mergeAll([
+  h.mergeAll([
     withLocal(l.n, l.v)
     for l in locals
   ]);

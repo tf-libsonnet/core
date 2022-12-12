@@ -37,6 +37,9 @@ local withProvider(name, attrs, alias=null) =
 //
 //   $._ref.null_resource.foo.get('id')
 //
+// NOTE: When chaining and merging multiple calls to withResource, withData, and withModule, you may not be able to use
+// super, self, or $ to get the reference to `_ref`. Instead, make an explicit binding to the outer object using local.
+//
 // Args:
 //   type (string): The resource type to create (e.g., aws_instance, null_resource, etc).
 //   label (string): The label to apply to the instance of the resource.
@@ -76,6 +79,9 @@ local withResource(type, label, attrs) = {
 // You can get the reference to the `id` field of the `azurerm_virtual_network` data source using the reference:
 //
 //   $._ref.data.azurerm_virtual_network.foo.get('id')
+//
+// NOTE: When chaining and merging multiple calls to withResource, withData, and withModule, you may not be able to use
+// super, self, or $ to get the reference to `_ref`. Instead, make an explicit binding to the outer object using local.
 //
 // Args:
 //   type (string): The data source type to create (e.g., aws_instance, local_file, etc).
@@ -118,6 +124,9 @@ local withData(type, label, attrs) = {
 // You can get the reference to the `id` output using the reference:
 //
 //   $._ref.module.foo.get('id')
+//
+// NOTE: When chaining and merging multiple calls to withResource, withData, and withModule, you may not be able to use
+// super, self, or $ to get the reference to `_ref`. Instead, make an explicit binding to the outer object using local.
 //
 // Args:
 //   name (string): The name of the module block.

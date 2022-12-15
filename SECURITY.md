@@ -2,9 +2,9 @@
 
 ## Reporting a Vulnerability
 
-If you find or notice any security vulnerability in Fensak software, you can report the finding to the team at:
+If you find or notice any security vulnerability in `tf.libsonnet`, you can report the finding to the team at:
 
-    security@fensak.io
+    security@tflibsonnet.com
 
 We will review the potential threat and work towards issuing a fix based on the level of risk associated with the
 vulnerability. During this time, we may follow up with additional information or guidance. Once a proper assessment has

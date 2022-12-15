@@ -9,7 +9,7 @@
     <img alt="LICENSE" src="https://img.shields.io/github/license/tf-libsonnet/core?style=for-the-badge">
   </a>
   <a href="https://github.com/tf-libsonnet/core/actions/workflows/lint-and-test.yml?query=branch%3Amain">
-    <img alt="main branch CI" src="https://img.shields.io/github/workflow/status/tf-libsonnet/core/lint-and-test/main?logo=github&label=CI&style=for-the-badge">
+    <img alt="main branch CI" src="https://img.shields.io/github/actions/workflow/status/tf-libsonnet/core/lint-and-test.yml?branch=main&logo=github&label=CI&style=for-the-badge">
   </a>
   <a href="https://github.com/tf-libsonnet/core/releases/latest">
     <img alt="latest release" src="https://img.shields.io/github/v/release/tf-libsonnet/core?style=for-the-badge">

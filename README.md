@@ -1,18 +1,18 @@
-<h1 align="center">tf-libsonnet</h1>
+<h1 align="center">tf-libsonnet/core</h1>
 
 <p align="center">
   <em>Generate Terraform with Jsonnet</em>
 </p>
 
 <p align="center">
-  <a href="https://github.com/fensak-io/tf-libsonnet/blob/main/LICENSE">
-    <img alt="LICENSE" src="https://img.shields.io/github/license/fensak-io/tf-libsonnet?style=for-the-badge">
+  <a href="https://github.com/tf-libsonnet/core/blob/main/LICENSE">
+    <img alt="LICENSE" src="https://img.shields.io/github/license/tf-libsonnet/core?style=for-the-badge">
   </a>
-  <a href="https://github.com/fensak-io/tf-libsonnet/actions/workflows/lint-and-test.yml?query=branch%3Amain">
-    <img alt="main branch CI" src="https://img.shields.io/github/workflow/status/fensak-io/tf-libsonnet/lint-and-test/main?logo=github&label=CI&style=for-the-badge">
+  <a href="https://github.com/tf-libsonnet/core/actions/workflows/lint-and-test.yml?query=branch%3Amain">
+    <img alt="main branch CI" src="https://img.shields.io/github/workflow/status/tf-libsonnet/core/lint-and-test/main?logo=github&label=CI&style=for-the-badge">
   </a>
-  <a href="https://github.com/fensak-io/tf-libsonnet/releases/latest">
-    <img alt="latest release" src="https://img.shields.io/github/v/release/fensak-io/tf-libsonnet?style=for-the-badge">
+  <a href="https://github.com/tf-libsonnet/core/releases/latest">
+    <img alt="latest release" src="https://img.shields.io/github/v/release/tf-libsonnet/core?style=for-the-badge">
   </a>
 </p>
 

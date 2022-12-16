@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/jsonnet-libs/docsonnet.git",
+          "subdir": ""
+        }
+      },
+      "version": "e7f3020f5733ac3dd0a1998f49591a5afd24948d"
+    }
+  ],
+  "legacyImports": true
+}

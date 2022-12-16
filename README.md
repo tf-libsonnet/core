@@ -17,3 +17,8 @@
 </p>
 
 This repository contains [Jsonnet](https://jsonnet.org/) functions for generating Terraform code.
+
+## Documentation
+
+Refer to [docs](/docs/README.md) for a reference of all exported functions (generated using
+[docsonnet](https://github.com/jsonnet-libs/docsonnet)).

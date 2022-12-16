@@ -3,13 +3,13 @@ local d = import 'github.com/jsonnet-libs/docsonnet/doc-util/main.libsonnet';
 local mergeAllDoc =
   d.fn(
     |||
-      `mergeAll` takes a list of objects and merges them together into a single object, processing the objects from left
+      `tf.mergeAll` takes a list of objects and merges them together into a single object, processing the objects from left
       to right. This is useful when you want to create many Terraform resources using list comprehension.
 
-      Args:
+      **Args**:
       - `objs` (`list[obj]`): List of objects to be merged into one.
 
-      Returns:
+      **Returns**:
       - A single object that is the result of merging all the input objects together.
     |||,
     [
@@ -26,7 +26,7 @@ local mergeAll(objs) = std.foldl(
 local objItemsDoc =
   d.fn(
     |||
-      `objItems` takes an object and returns a list of objects with two attributes:
+      `tf.objItems` takes an object and returns a list of objects with two attributes:
       - `k`: The object key being iterated.
       - `v`: The object value being iterated.
 
@@ -42,10 +42,10 @@ local objItemsDoc =
 
           [i.k + ' = ' + i.v for i in objItems(obj)]
 
-      Args:
+      **Args**:
       - `obj` (`obj`): The object whose fields and values to iterate.
 
-      Returns:
+      **Returns**:
       - A list of objects with attributes k and v to denote the object keys and values.
     |||,
     [
@@ -62,12 +62,12 @@ local objItems(obj) =
 local objItemsAllDoc =
   d.fn(
     |||
-      `objItemsAll` is like `objItems`, but also includes hidden fields.
+      `tf.objItemsAll` is like `objItems`, but also includes hidden fields.
 
-      Args:
+      **Args**:
       - `obj` (`obj`): The object whose fields and values to iterate.
 
-      Returns:
+      **Returns**:
       - A list of objects with attributes k and v to denote the object keys and values.
     |||,
     [
@@ -84,12 +84,12 @@ local objItemsAll(obj) =
 local isStringArrayDoc =
   d.fn(
     |||
-      `isStringArray` returns `true` if the given value is an array with all elements as string.
+      `tf.isStringArray` returns `true` if the given value is an array with all elements as string.
 
-      Args:
+      **Args**:
       - `v` (`any`): The value being evaluated.
 
-      Returns:
+      **Returns**:
       - A boolean indicating whether the given arg is a string array.
     |||,
     [

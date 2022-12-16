@@ -1,12 +1,13 @@
-local h = import './helpers.libsonnet';
 local d = import 'github.com/jsonnet-libs/docsonnet/doc-util/main.libsonnet';
+
+local h = import './helpers.libsonnet';
 
 local withProviderDoc =
   d.fn(
     |||
-      `withProvider` injects a new Terraform `provider` block into the root configuration
+      `tf.withProvider` injects a new Terraform `provider` block into the root configuration
 
-      Args:
+      **Args**:
       - `name` (`string`): The name of the provider to inject.
       - `attrs` (`obj`): The attributes to apply to the provider block being injected.
       - `alias` (`string`): The `alias` to bind to the provider block. When `null`, the `alias` attribute is omitted
@@ -18,7 +19,7 @@ local withProviderDoc =
                               be added specifying the version. If both `src` and `version` is `null`, the
                               `required_providers` entry is omitted.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects the new provider block into the root Terraform configuration.
     |||,
     [
@@ -71,7 +72,7 @@ local withProvider(name, attrs, alias=null, src=null, version=null) =
 local withResourceDoc =
   d.fn(
     |||
-      `withResource` injects a new Terraform `resource` block into the root configuration.
+      `tf.withResource` injects a new Terraform `resource` block into the root configuration.
 
       Additionally, this inserts a private function into the \_ref attribute that generates references to attributes of the
       resource. For example, if you added a new resource using:
@@ -82,11 +83,11 @@ local withResourceDoc =
 
           $._ref.null_resource.foo.get('id')
 
-      NOTE: When chaining and merging multiple calls to `withResource`, `withData`, and `withModule`, you may not be
-      able to use `super`, `self`, or `$` to get the reference to `_ref`. Instead, make an explicit binding to the outer
-      object using `local`.
+      NOTE: When chaining and merging multiple calls to [withResource](#fn-withresource), [withData](#fn-withdata), and
+      [withModule](#fn-withmodule), you may not be able to use `super`, `self`, or `$` to get the reference to `_ref`.
+      Instead, make an explicit binding to the outer object using `local`.
 
-      Args:
+      **Args**:
       - `type` (`string`): The resource type to create (e.g., `aws_instance`, `null_resource`, etc).
       - `label` (`string`): The label to apply to the instance of the resource.
       - `attrs` (`obj`): The attributes for the instance of the resource being created.
@@ -94,7 +95,7 @@ local withResourceDoc =
                          can set the meta-arguments on the `attrs` object, it is recommended to use the `_meta` arg to
                          highlight the meta-arguments.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects the new resource into the root Terraform configuration.
     |||,
     [
@@ -133,7 +134,7 @@ local withResource(type, label, attrs, _meta={}) = {
 local withDataDoc =
   d.fn(
     |||
-      `withData` injects a new Terraform `data` source block into the root configuration.
+      `tf.withData` injects a new Terraform `data` source block into the root configuration.
 
       Additionally, this inserts a private function into the \_ref attribute that generates references to attributes of the
       data source. For example, if you added a new data source using:
@@ -144,11 +145,11 @@ local withDataDoc =
 
           $._ref.azurerm_virtual_network.foo.get('id')
 
-      NOTE: When chaining and merging multiple calls to `withResource`, `withData`, and `withModule`, you may not be
-      able to use `super`, `self`, or `$` to get the reference to `_ref`. Instead, make an explicit binding to the outer
-      object using `local`.
+      NOTE: When chaining and merging multiple calls to [withResource](#fn-withresource), [withData](#fn-withdata), and
+      [withModule](#fn-withmodule), you may not be able to use `super`, `self`, or `$` to get the reference to `_ref`.
+      Instead, make an explicit binding to the outer object using `local`.
 
-      Args:
+      **Args**:
       - `type` (`string`): The data source type to create (e.g., `aws_instance`, `local_file`, etc).
       - `label` (`string`): The label to apply to the instance of the data source.
       - `attrs` (`obj`): The attributes for the instance of the data source being created.
@@ -156,7 +157,7 @@ local withDataDoc =
                          can set the meta-arguments on the `attrs` object, it is recommended to use the `_meta` arg to
                          highlight the meta-arguments.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects the new data source into the root Terraform configuration.
     |||,
     [
@@ -196,7 +197,7 @@ local withData(type, label, attrs, _meta={}) = {
 local withModuleDoc =
   d.fn(
     |||
-      `withModule` injects a new `module` block into the root configuration.
+      `tf.withModule` injects a new `module` block into the root configuration.
 
       Additionally, this inserts a private function into the \_ref attribute that generates references to attributes of the
       module call. For example, if you added a new module call using:
@@ -207,11 +208,11 @@ local withModuleDoc =
 
           $._ref.module.foo.get('id')
 
-      NOTE: When chaining and merging multiple calls to `withResource`, `withData`, and `withModule`, you may not be
-      able to use `super`, `self`, or `$` to get the reference to `_ref`. Instead, make an explicit binding to the outer
-      object using `local`.
+      NOTE: When chaining and merging multiple calls to [withResource](#fn-withresource), [withData](#fn-withdata), and
+      [withModule](#fn-withmodule), you may not be able to use `super`, `self`, or `$` to get the reference to `_ref`.
+      Instead, make an explicit binding to the outer object using `local`.
 
-      Args:
+      **Args**:
       - `name` (`string`): The name of the module block.
       - `source` (`string`): The source for the module block.
       - `inputs` (`obj`): The input values to pass into the module block.
@@ -221,7 +222,7 @@ local withModuleDoc =
                          can set the meta-arguments on the `inputs` object, it is recommended to use the `_meta` arg to
                          highlight the meta-arguments.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects the new module block into the root Terraform configuration.
     |||,
     [
@@ -267,9 +268,9 @@ local withModule(name, source, inputs, version=null, _meta={}) =
 local withVariableDoc =
   d.fn(
     |||
-      `withVariable` injects a new Terraform `variable` block into the root configuration.
+      `tf.withVariable` injects a new Terraform `variable` block into the root configuration.
 
-      Args:
+      **Args**:
       - `name` (`string`): The name of the variable.
       - `isRequired` (`bool`): Whether the variable is required. When `true`, the `default` value is omitted from the
                                object.
@@ -277,7 +278,7 @@ local withVariableDoc =
       - `description` (`string`): The description of the variable. When `null`, the `description` field is omitted from the object.
       - `default` (`any`): The default value of the variable. Omitted when `isRequired` is `true`.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects the new variable into the root Terraform configuration.
     |||,
     [
@@ -320,15 +321,15 @@ local withVariable(name, isRequired=true, type=null, description=null, default=n
 local withOutputDoc =
   d.fn(
     |||
-      `withOutput` injects a new Terraform `output` block into the root configuration.
+      `tf.withOutput` injects a new Terraform `output` block into the root configuration.
 
-      Args:
+      **Args**:
       - `name` (`string`): The name of the output.
       - `value` (`string`): The expression to bind to the output name.
       - `description` (`string`): The description of the output. When `null`, the `description` field is omitted from
                                   the object.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects the new output into the root Terraform configuration.
     |||,
     [
@@ -356,13 +357,13 @@ local withOutput(name, value, description=null) =
 local withOutputMapDoc =
   d.fn(
     |||
-      `withOutputMap` injects all the key value pairs of the input map as Terraform `output` blocks into the root
+      `tf.withOutputMap` injects all the key value pairs of the input map as Terraform `output` blocks into the root
       configuration.
 
-      Args:
+      **Args**:
       - `map` (`map[str, str]`): Map of output keys to output values.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects all the key value pairs as output blocks.
     |||,
     [
@@ -382,12 +383,12 @@ local withOutputListDoc =
       `withOutputList` injects the list of output configurations as Terraform `output` blocks into the root
       configuration.
 
-      Args:
+      **Args**:
       - `outputs` (`list[obj]`): List of output configurations, where each element describes an `output` block. Each
                                  element should have the keys `n` (for `name`), `v` (for `value`), and `d` (for
                                  `description`).
 
-      Returns:
+      **Returns**:
       - A mixin object that injects all the outputs as output blocks.
     |||,
     [
@@ -404,13 +405,13 @@ local withOutputList(outputs) =
 local withLocalDoc =
   d.fn(
     |||
-      `withLocal` injects a new Terraform `local` definition into the root configuration.
+      `tf.withLocal` injects a new Terraform `local` definition into the root configuration.
 
-      Args:
+      **Args**:
       - `name` (`string`): The name of the `local` to define.
       - `value` (`any`): The value to bind to the `local`.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects the new local into the root Terraform configuration.
     |||,
     [
@@ -428,13 +429,13 @@ local withLocal(name, value) = {
 local withLocalMapDoc =
   d.fn(
     |||
-      `withLocalMap` injects all the key value pairs of the input map as Terraform `local` definitions in the root
+      `tf.withLocalMap` injects all the key value pairs of the input map as Terraform `local` definitions in the root
       configuration.
 
-      Args:
+      **Args**:
       - `map` (`map[str, str]`): Map of local keys to local values.
 
-      Returns:
+      **Returns**:
       - A mixin object that injects all the key value pairs as locals.
     |||,
     [
@@ -451,14 +452,14 @@ local withLocalMap(map) =
 local withLocalListDoc =
   d.fn(
     |||
-      `withLocalList` injects the list of local configurations as Terraform `local` definitions in the root
+      `tf.withLocalList` injects the list of local configurations as Terraform `local` definitions in the root
       configuration.
 
-      Args:
+      **Args**:
       - `locals` (`list[obj]`): List of local configurations, where each element describes a `local`. Each element
                                 should have the keys `n` (for `name`) and `v` (for `value`).
 
-      Returns:
+      **Returns**:
       - A mixin object that injects all the locals into the Terraform config.
     |||,
     [

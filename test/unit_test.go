@@ -142,6 +142,21 @@ func TestUnitRef(t *testing.T) {
 	g.Expect(out.NullResourceID).NotTo(Equal(""))
 }
 
+func TestUnitMeta(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var out struct {
+		NumCreated int `json:"num_created"`
+	}
+
+	metaPath := filepath.Join(unitTestFixtureDir, "meta")
+	jsonnetFPath := filepath.Join(metaPath, "main.tf.jsonnet")
+	err := renderAndApplyE(t, jsonnetFPath, nil, &out)
+	g.Expect(err).NotTo(HaveOccurred())
+	g.Expect(out.NumCreated).To(Equal(5))
+}
+
 func renderAndApplyE(
 	t *testing.T,
 	jsonnetFPath string,

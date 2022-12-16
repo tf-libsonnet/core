@@ -71,13 +71,20 @@ local withProvider(name, attrs, alias=null, src=null, version=null) =
 //   type (string): The resource type to create (e.g., aws_instance, null_resource, etc).
 //   label (string): The label to apply to the instance of the resource.
 //   attrs (obj): The attributes for the instance of the resource being created.
+//   _meta (obj): An optional meta-argument object that (see meta.libsonnet). Note that while technically you can set
+//                the meta-arguments on the attrs object, it is recommended to use the `_meta` arg to highlight the
+//                meta-arguments.
+//                TODO: add type checking
 //
 // Returns:
 //   A mixin object that injects the new resource into the root Terraform configuration.
-local withResource(type, label, attrs) = {
+local withResource(type, label, attrs, _meta={}) = {
   resource+: {
     [type]+: {
-      [label]: attrs,
+      [label]: (
+        attrs
+        + _meta
+      ),
     },
   },
 
@@ -114,13 +121,20 @@ local withResource(type, label, attrs) = {
 //   type (string): The data source type to create (e.g., aws_instance, local_file, etc).
 //   label (string): The label to apply to the instance of the data source.
 //   attrs (obj): The attributes for the instance of the data source to read.
+//   _meta (obj): An optional meta-argument object that (see meta.libsonnet). Note that while technically you can set
+//                the meta-arguments on the attrs object, it is recommended to use the `_meta` arg to highlight the
+//                meta-arguments.
+//                TODO: add type checking
 //
 // Returns:
 //   A mixin object that injects the new data source into the root Terraform configuration.
-local withData(type, label, attrs) = {
+local withData(type, label, attrs, _meta={}) = {
   data+: {
     [type]+: {
-      [label]: attrs,
+      [label]: (
+        attrs
+        + _meta
+      ),
     },
   },
 
@@ -161,10 +175,14 @@ local withData(type, label, attrs) = {
 //   inputs (obj): The input values to pass into the module block.
 //   version (string): The version of the module source to pull in, if the module source references a registry. When
 //                     null, the version field is omitted from the resulting module block.
+//   _meta (obj): An optional meta-argument object that (see meta.libsonnet). Note that while technically you can set
+//                the meta-arguments on the inputs object, it is recommended to use the `_meta` arg to highlight the
+//                meta-arguments.
+//                TODO: add type checking
 //
 // Returns:
 //   A mixin object that injects the new module block into the root Terraform configuration.
-local withModule(name, source, inputs, version=null) =
+local withModule(name, source, inputs, version=null, _meta={}) =
   local maybeVersion =
     if version != null then
       { version: version }
@@ -176,7 +194,8 @@ local withModule(name, source, inputs, version=null) =
       [name]:
         { source: source }
         + maybeVersion
-        + inputs,
+        + inputs
+        + _meta,
     },
 
     _ref+:: {

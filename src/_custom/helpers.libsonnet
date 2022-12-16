@@ -54,8 +54,26 @@ local objItemsAll(obj) =
   ];
 
 
+// isStringArray returns true if the given value is an array with all elements as string.
+//
+// Args:
+//   v (any): The value being evaluated.
+//
+// Returns:
+//   A boolean indicating whether the given arg is a string array.
+local isStringArray(v) =
+  std.isArray(v)
+  && (
+    std.all([
+      std.isString(i)
+      for i in v
+    ])
+  );
+
+
 {
   mergeAll:: mergeAll,
   objItems:: objItems,
   objItemsAll:: objItemsAll,
+  isStringArray:: isStringArray,
 }

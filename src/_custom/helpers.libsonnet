@@ -64,10 +64,15 @@ local objItemsAll(obj) =
 local isStringArray(v) =
   std.isArray(v)
   && (
-    std.all([
-      std.isString(i)
-      for i in v
-    ])
+    // We temporarily avoid using std.all since the linter does not support it.
+    std.foldl(
+      function(x, y) (x && y),
+      [
+        std.isString(i)
+        for i in v
+      ],
+      true,
+    )
   );
 
 

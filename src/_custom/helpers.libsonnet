@@ -54,8 +54,31 @@ local objItemsAll(obj) =
   ];
 
 
+// isStringArray returns true if the given value is an array with all elements as string.
+//
+// Args:
+//   v (any): The value being evaluated.
+//
+// Returns:
+//   A boolean indicating whether the given arg is a string array.
+local isStringArray(v) =
+  std.isArray(v)
+  && (
+    // We temporarily avoid using std.all since the linter does not support it.
+    std.foldl(
+      function(x, y) (x && y),
+      [
+        std.isString(i)
+        for i in v
+      ],
+      true,
+    )
+  );
+
+
 {
   mergeAll:: mergeAll,
   objItems:: objItems,
   objItemsAll:: objItemsAll,
+  isStringArray:: isStringArray,
 }

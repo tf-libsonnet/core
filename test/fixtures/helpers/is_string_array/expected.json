@@ -1,0 +1,11 @@
+{
+   "arrayNestedString": false,
+   "arrayNestedStringFlattened": true,
+   "arrayNumber": false,
+   "arrayObject": false,
+   "arrayString": true,
+   "emptyArray": true,
+   "number": false,
+   "object": false,
+   "string": false
+}

@@ -21,6 +21,7 @@ jobs:
 
       - name: install jsonnet-bundler, jsonnetfmt, and jsonnet-lint
         run: |
+          go install github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
           go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
           go install github.com/google/go-jsonnet/cmd/jsonnet-lint@latest
 
@@ -28,10 +29,14 @@ jobs:
         run: |
           find . -name "*.jsonnet" -or -name "*.libsonnet" | xargs -L1 jsonnetfmt --test
 
+      - name: install dependencies
+        run: |
+          jb install
+
       - name: check for lint
         run: |
           export JSONNET_PATH="$(pwd)/vendor:$(pwd)"
-          find . -name "*.jsonnet" -or -name "*.libsonnet" -not -path "*/vendor/*" \
+          find . -not -path "./vendor/*" \( -name "*.jsonnet" -or -name "*.libsonnet" \) \
             | xargs -L1 -t jsonnet-lint
 
   golangci:

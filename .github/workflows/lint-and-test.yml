@@ -10,7 +10,49 @@ permissions:
   contents: read
 
 jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+        with:
+          token: ${{ secrets.TFLIBSONNET_CI_GITHUB_TOKEN }}
+
+      - uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
+        with:
+          go-version: 1.19
+
+      - name: install and run docsonnet
+        run: |
+          go install github.com/jsonnet-libs/docsonnet@latest
+          docsonnet main.libsonnet
+
+      - name: import gpg signing key
+        uses: crazy-max/ghaction-import-gpg@111c56156bcc6918c056dbef52164cfa583dc549 # v5.2.0
+        with:
+          gpg_private_key: ${{ secrets.TFLIBSONNET_CI_GPG_KEY }}
+          passphrase: ${{ secrets.TFLIBSONNET_CI_GPG_PASSPHRASE }}
+          git_config_global: true
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_committer_name: "tflibsonnet-ci"
+          git_committer_email: "120686569+tflibsonnet-ci@users.noreply.github.com"
+
+      - name: commit docs if files changed
+        id: auto-commit-action
+        uses: stefanzweifel/git-auto-commit-action@3ea6ae190baf489ba007f7c92608f33ce20ef04a # v4.16.0
+        with:
+          commit_message: "Update docs"
+          file_pattern: "docs"
+          commit_options: "-S -s"
+          commit_user_name: "tflibsonnet-ci"
+          commit_user_email: "120686569+tflibsonnet-ci@users.noreply.github.com"
+
+      - name: halt pipeline if new commit was created
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        run: "false"
+
   lint:
+    needs: docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -40,6 +82,7 @@ jobs:
             | xargs -L1 -t jsonnet-lint
 
   golangci:
+    needs: docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
@@ -56,6 +99,7 @@ jobs:
           working-directory: "test"
 
   test:
+    needs: docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0

@@ -21,8 +21,3 @@
   commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits). If you do
   not wish to maintain a set of private keys on your account, you can also use the
   [sigstore/gitsign](https://github.com/sigstore/gitsign) project for keyless signing with your GitHub account.
-
-**Support**
-
-- Ask any question about how to use the `tf.libsonnet` libraries in the [Organization
-  GitHub Discussion](https://github.com/orgs/tf-libsonnet/discussions).

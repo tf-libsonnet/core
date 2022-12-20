@@ -62,6 +62,13 @@ This will generate the following Terraform JSON :
 
 Refer to the [reference docs](/docs/README.md) for a reference of all exporeted functions.
 
+
+## Support
+
+If you have any questions about how to use the `tf.libsonnet` libraries, ask in the [Organization GitHub
+Discussion](https://github.com/orgs/tf-libsonnet/discussions).
+
+
 ## Contributing
 
 Refer to the [CONTRIBUTING.md](/CONTRIBUTING.md) document for information on how to contribute to `tf.libsonnet`.

@@ -18,7 +18,50 @@
 
 This repository contains [Jsonnet](https://jsonnet.org/) functions for generating Terraform code.
 
-## Documentation
+## Usage
 
-Refer to [docs](/docs/README.md) for a reference of all exported functions (generated using
-[docsonnet](https://github.com/jsonnet-libs/docsonnet)).
+Install the package using [jsonnet-bundler](https://github.com/jsonnet-bundler/jsonnet-bundler):
+
+```
+jb install github.com/tf-libsonnet/core@main
+
+# Or if you want to install a specific release
+#   jb install github.com/tf-libsonnet/core@v0.0.1
+```
+
+You can then import the package in your Jsonnet code:
+
+```jsonnet
+// main.tf.json.jsonnet
+local tf = import 'github.com/tf-libsonnet/core/main.libsonnet';
+
+tf.withVariable('some_input', type='string')
++ tf.withLocal('some_local', '${var.some_input}')
++ tf.withOutput('some_output', '${local.some_local}')
+```
+
+This will generate the following Terraform JSON :
+
+```json
+{
+   "locals": {
+      "some_local": "${var.some_input}"
+   },
+   "output": {
+      "some_output": {
+         "value": "${local.some_local}"
+      }
+   },
+   "variable": {
+      "some_input": {
+         "type": "string"
+      }
+   }
+}
+```
+
+Refer to the [reference docs](/docs/README.md) for a reference of all exporeted functions.
+
+## Contributing
+
+Refer to the [CONTRIBUTING.md](/CONTRIBUTING.md) document for information on how to contribute to `tf.libsonnet`.

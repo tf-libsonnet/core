@@ -35,6 +35,12 @@ local newMetaDoc =
       - `lifecycle` (`obj`): Set the `lifecycle` meta-argument block on the resulting block. When `null`, the
                              `lifecycle` block is omitted. It is recommended to generate this using
                              [tf.meta.lifecycle.new](#fn-metalifecyclenew).
+      - `connection` (`obj`): Set the `connection` meta-argument blocks on the resulting block. When
+                              `null`, there will be no `provisioner` blocks added. It is recommended to generate
+                              this using in [tf.meta.provisioner.connection.new](#obj-metaprovisionerconnectionnew).
+      - `provisioner` (`list[obj]`): Set the list of `provisioner` meta-argument blocks on the resulting block. When
+                                     `null`, there will be no `provisioner` blocks added. It is recommended to generate
+                                     this using functions in [tf.meta.provisioner](#obj-metaprovisioner).
 
       **Returns**:
       - A mixin that can be merged with a resource or data source object to set meta-arguments.
@@ -45,9 +51,11 @@ local newMetaDoc =
       d.arg('for_each', d.T.array, d.T.nil),
       d.arg('provider', d.T.string, d.T.nil),
       d.arg('lifecycle', d.T.object, d.T.nil),
+      d.arg('connection', d.T.object, d.T.nil),
+      d.arg('provisioner', d.T.array, d.T.nil),
     ],
   );
-local newMeta(count=null, depends_on=null, for_each=null, provider=null, lifecycle=null) =
+local newMeta(count=null, depends_on=null, for_each=null, provider=null, lifecycle=null, connection=null, provisioner=null) =
   local maybeCount =
     if count != null then
       { count: count }
@@ -78,11 +86,25 @@ local newMeta(count=null, depends_on=null, for_each=null, provider=null, lifecyc
     else
       {};
 
+  local maybeConnection =
+    if connection != null then
+      { connection: connection }
+    else
+      {};
+
+  local maybeProvisioner =
+    if provisioner != null then
+      { provisioner: provisioner }
+    else
+      {};
+
   maybeCount
   + maybeDependsOn
   + maybeForEach
   + maybeProvider
-  + maybeLifecycle;
+  + maybeLifecycle
+  + maybeConnection
+  + maybeProvisioner;
 
 
 local newModuleMetaDoc =
@@ -272,7 +294,7 @@ local newConditionDoc =
       - `error_message` (`string`): Set the `error_message` attribute on the block.
 
       **Returns**:
-      - A mixin that can be used as a `precondition` or `postcondition` subblock for a `lifecycle` block.
+      - An object that can be used as a `precondition` or `postcondition` subblock for a `lifecycle` block.
     |||,
     [
       d.arg('condition', d.T.string),
@@ -301,5 +323,6 @@ local newCondition(condition, error_message) =
         new:: newCondition,
       },
     },
+    provisioner:: (import './meta_provisioner.libsonnet'),
   },
 }

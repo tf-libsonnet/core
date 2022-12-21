@@ -165,9 +165,10 @@ local newRemoteExecProvisioner(
        || script != null && (inline == null && scripts == null)
        || scripts != null && (inline == null && script == null)
     then
-      null
+      true
     else
       error mutexErr;
+  assert mutexCheck;
 
   local maybeInline =
     if inline != null then
@@ -251,9 +252,10 @@ local newFileProvisioner(
     if source != null && content == null
        || content != null && source == null
     then
-      null
+      true
     else
       error mutexErr;
+  assert mutexCheck;
 
   local maybeSource =
     if source != null then

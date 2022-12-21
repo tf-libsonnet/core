@@ -518,7 +518,7 @@ the `provisioner` meta-argument block.
 - `destination` (`str`): The destination path to write on the remote system.
 - `connection` (`obj`): Set the `connection` meta-argument blocks on the resulting block. When
                         `null`, there will be no `provisioner` blocks added. It is recommended to generate
-                        this using in [tf.meta.provisioner.connection.new](#obj-metaprovisionerconnectionnew).
+                        this using in [tf.meta.provisioner.connection.new](#fn-metaprovisionerconnectionnew).
 - `when` (`str`): Specifies when Terraform should run the command. Can only be set to `"destroy"`. When `null`,
                   the attribute is omitted from the resulting block.
 - `on_failure` (`str`): Modify how Terraform handles errors in the underlying command. Must be one of `"continue"`
@@ -572,7 +572,7 @@ the `provisioner` meta-argument block.
                            executed. Exactly one of `inline`, `script`, or `scripts` must be provied.
 - `connection` (`obj`): Set the `connection` meta-argument blocks on the resulting block. When
                         `null`, there will be no `provisioner` blocks added. It is recommended to generate
-                        this using in [tf.meta.provisioner.connection.new](#obj-metaprovisionerconnectionnew).
+                        this using in [tf.meta.provisioner.connection.new](#fn-metaprovisionerconnectionnew).
 - `when` (`str`): Specifies when Terraform should run the command. Can only be set to `"destroy"`. When `null`,
                   the attribute is omitted from the resulting block.
 - `on_failure` (`str`): Modify how Terraform handles errors in the underlying command. Must be one of `"continue"`

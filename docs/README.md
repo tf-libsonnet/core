@@ -29,12 +29,18 @@ local tf = import "github.com/tf-libsonnet/core/main.libsonnet"
 * [`fn withResource(type, label, attrs, _meta={})`](#fn-withresource)
 * [`fn withVariable(name, isRequired=true, type='null', description='null', default='null')`](#fn-withvariable)
 * [`obj meta`](#obj-meta)
-  * [`fn new(count='null', depends_on='null', for_each='null', provider='null', lifecycle='null')`](#fn-metanew)
+  * [`fn new(count='null', depends_on='null', for_each='null', provider='null', lifecycle='null', connection='null', provisioner='null')`](#fn-metanew)
   * [`fn newForModule(count='null', depends_on='null', for_each='null', providers='null')`](#fn-metanewformodule)
   * [`obj meta.lifecycle`](#obj-metalifecycle)
     * [`fn new(create_before_destroy='null', prevent_destroy='null', ignore_changes='null', replace_triggered_by='null', precondition='null', postcondition='null')`](#fn-metalifecyclenew)
     * [`obj meta.lifecycle.condition`](#obj-metalifecyclecondition)
       * [`fn new(condition, error_message)`](#fn-metalifecycleconditionnew)
+  * [`obj meta.provisioner`](#obj-metaprovisioner)
+    * [`fn newFile(destination, source='null', content='null', connection='null', when='null', on_failure='null')`](#fn-metaprovisionernewfile)
+    * [`fn newLocalExec(command, working_dir='null', interpreter='null', environment='null', when='null', on_failure='null')`](#fn-metaprovisionernewlocalexec)
+    * [`fn newRemoteExec(inline='null', script='null', scripts='null', connection='null', when='null', on_failure='null')`](#fn-metaprovisionernewremoteexec)
+    * [`obj meta.provisioner.connection`](#obj-metaprovisionerconnection)
+      * [`fn new(host, type='null', user='null', password='null', port='null', timeout='null', script_path='null', private_key='null', certificate='null', agent='null', agent_identity='null', host_key='null', target_platform='null', bastion_host='null', bastion_host_key='null', bastion_port='null', bastion_user='null', bastion_password='null', bastion_private_key='null', bastion_certificate='null', https='null', insecure='null', use_ntlm='null', cacert='null')`](#fn-metaprovisionerconnectionnew)
 
 ## Fields
 
@@ -366,7 +372,7 @@ withVariable(name, isRequired=true, type='null', description='null', default='nu
 ### fn meta.new
 
 ```ts
-new(count='null', depends_on='null', for_each='null', provider='null', lifecycle='null')
+new(count='null', depends_on='null', for_each='null', provider='null', lifecycle='null', connection='null', provisioner='null')
 ```
 
 `tf.meta.new` will generate an object that can be mixed into any resource or data source to set the Terraform meta
@@ -393,6 +399,12 @@ reference](https://developer.hashicorp.com/terraform/language) for more informat
 - `lifecycle` (`obj`): Set the `lifecycle` meta-argument block on the resulting block. When `null`, the
                        `lifecycle` block is omitted. It is recommended to generate this using
                        [tf.meta.lifecycle.new](#fn-metalifecyclenew).
+- `connection` (`obj`): Set the `connection` meta-argument blocks on the resulting block. When
+                        `null`, there will be no `provisioner` blocks added. It is recommended to generate
+                        this using in [tf.meta.provisioner.connection.new](#obj-metaprovisionerconnectionnew).
+- `provisioner` (`list[obj]`): Set the list of `provisioner` meta-argument blocks on the resulting block. When
+                               `null`, there will be no `provisioner` blocks added. It is recommended to generate
+                               this using functions in [tf.meta.provisioner](#obj-metaprovisioner).
 
 **Returns**:
 - A mixin that can be merged with a resource or data source object to set meta-arguments.
@@ -484,4 +496,162 @@ or `postcondition` in the `lifecycle` block.
 - `error_message` (`string`): Set the `error_message` attribute on the block.
 
 **Returns**:
-- A mixin that can be used as a `precondition` or `postcondition` subblock for a `lifecycle` block.
+- An object that can be used as a `precondition` or `postcondition` subblock for a `lifecycle` block.
+
+
+## obj meta.provisioner
+
+
+
+### fn meta.provisioner.newFile
+
+```ts
+newFile(destination, source='null', content='null', connection='null', when='null', on_failure='null')
+```
+
+`tf.meta.provisioner.newFile` will generate a new `file` provisioner block that can be used as part of
+the `provisioner` meta-argument block.
+
+**Args**:
+- `source` (`str`): The source file or directory to copy. Exactly one of `source` or `content` must be provided.
+- `content` (`str`): The direct content to copy to the destination. Exactly one of `source` or `content` must be provied.
+- `destination` (`str`): The destination path to write on the remote system.
+- `connection` (`obj`): Set the `connection` meta-argument blocks on the resulting block. When
+                        `null`, there will be no `provisioner` blocks added. It is recommended to generate
+                        this using in [tf.meta.provisioner.connection.new](#obj-metaprovisionerconnectionnew).
+- `when` (`str`): Specifies when Terraform should run the command. Can only be set to `"destroy"`. When `null`,
+                  the attribute is omitted from the resulting block.
+- `on_failure` (`str`): Modify how Terraform handles errors in the underlying command. Must be one of `"continue"`
+                        or `"fail"`. When `null`, the attribute is omitted from the resulting block.
+
+**Returns**:
+- An object that can be used as a `provisioner` meta-argument block in the `provisioner` block list of `tf.meta.new`.
+
+
+### fn meta.provisioner.newLocalExec
+
+```ts
+newLocalExec(command, working_dir='null', interpreter='null', environment='null', when='null', on_failure='null')
+```
+
+`tf.meta.provisioner.newLocalExec` will generate a new `local-exec` provisioner block that can be used as part of
+the `provisioner` meta-argument block.
+
+**Args**:
+- `command` (`str`): The command to execute on the operator machine as part of the resource lifecycle.
+- `working_dir` (`str`): The working directory where `command` will be executed. When `null`, the attribute is
+                         omitted from the resulting block.
+- `interpreter` (`list[str]`): The list of interpreter arguments used to execute the command. When `null`, the
+                               attribute is omitted from the resulting block.
+- `environment` (`map[str, str]`): Map of key-value pairs representing the environment variables that should be
+                                   set. When `null`, the attribute is omitted from the resulting block.
+- `when` (`str`): Specifies when Terraform should run the command. Can only be set to `"destroy"`. When `null`,
+                  the attribute is omitted from the resulting block.
+- `on_failure` (`str`): Modify how Terraform handles errors in the underlying command. Must be one of `"continue"`
+                        or `"fail"`. When `null`, the attribute is omitted from the resulting block.
+
+**Returns**:
+- An object that can be used as a `provisioner` meta-argument block in the `provisioner` block list of `tf.meta.new`.
+
+
+### fn meta.provisioner.newRemoteExec
+
+```ts
+newRemoteExec(inline='null', script='null', scripts='null', connection='null', when='null', on_failure='null')
+```
+
+`tf.meta.provisioner.newRemoteExec` will generate a new `remote-exec` provisioner block that can be used as part of
+the `provisioner` meta-argument block.
+
+**Args**:
+- `inline` (`list[str]`): The list of commands to execute on the remote machine as part of the resource lifecycle.
+                          Exactly one of `inline`, `script`, or `scripts` must be provied.
+- `script` (`str`): The path to a local script that will be copied to the remote machine and then executed.
+                    Exactly one of `inline`, `script`, or `scripts` must be provied.
+- `scripts` (`list[str]`): The list of paths to local scripts that will be copied to the remote machine and then
+                           executed. Exactly one of `inline`, `script`, or `scripts` must be provied.
+- `connection` (`obj`): Set the `connection` meta-argument blocks on the resulting block. When
+                        `null`, there will be no `provisioner` blocks added. It is recommended to generate
+                        this using in [tf.meta.provisioner.connection.new](#obj-metaprovisionerconnectionnew).
+- `when` (`str`): Specifies when Terraform should run the command. Can only be set to `"destroy"`. When `null`,
+                  the attribute is omitted from the resulting block.
+- `on_failure` (`str`): Modify how Terraform handles errors in the underlying command. Must be one of `"continue"`
+                        or `"fail"`. When `null`, the attribute is omitted from the resulting block.
+
+**Returns**:
+- An object that can be used as a `provisioner` meta-argument block in the `provisioner` block list of `tf.meta.new`.
+
+
+## obj meta.provisioner.connection
+
+
+
+### fn meta.provisioner.connection.new
+
+```ts
+new(host, type='null', user='null', password='null', port='null', timeout='null', script_path='null', private_key='null', certificate='null', agent='null', agent_identity='null', host_key='null', target_platform='null', bastion_host='null', bastion_host_key='null', bastion_port='null', bastion_user='null', bastion_password='null', bastion_private_key='null', bastion_certificate='null', https='null', insecure='null', use_ntlm='null', cacert='null')
+```
+
+`tf.meta.provisioner.connection.new` will generate a new `connection` block that can be used as part of
+the `provisioner` meta-argument block.
+
+**Args**:
+- `host` (`str`): The address of the remote resource to connect to.
+- `type` (`str`): The connection type to use when connecting to the instance. Must be one of `"ssh"` or `"winrm"`.
+                  When `null`, the attribute is omitted from the resulting block and defaults to what Terraform
+                  has set internally (`"ssh"`).
+- `user` (`str`): The user to use for the connection. When `null`, the attribute is omitted from the resulting
+                  block and defaults to what Terraform has set internally.
+- `password` (`str`): The password to use for the connection. When `null`, the attribute is omitted from the
+                      resulting block.
+- `port` (`number`): The port to use for the connection. When `null`, the attribute is omitted from the resulting
+                     block and defaults to what Terraform has set internally.
+- `timeout` (`str`): The timeout to wait for the connection. When `null`, the attribute is omitted from the
+                     resulting block and defaults to what Terraform has set internally (`"5m"`).
+- `script_path` (`str`): The path used to copy scripts meant for remote execution. When `null`, the attribute is
+                         omitted from the resulting block.
+- `private_key` (`str`): The contents of an SSH key to use for the connection. When `null`, the attribute is
+                         omitted from the resulting block. Can only be set when `type` is `"ssh"` or `null`.
+- `certificate` (`str`): The contents of a signed CA certificate to be used in conjunction with the `private_key`
+                         arg. When `null`, the attribute is omitted from the resulting block. Can only be set when
+                         `type` is `"ssh"` or `null`.
+- `agent` (`bool`): Whether to use the `ssh-agent` for authenticating. When `null`, the attribute is omitted from
+                    the resulting block. Can only be set when `type` is `"ssh"` or `null`.
+- `agent_identity` (`str`): The preferred identity from the ssh agent to use for authentication. When `null`, the
+                            attribute is omitted from the resulting block. Can only be set when `type` is `"ssh"`
+                            or `null`.
+- `host_key` (`str`): The public key from the remote host or the signing CA. This is used to verify the
+                      connection. When `null`, the attribute is omitted from the resulting block. Can only be set
+                      when `type` is `"ssh"` or `null`.
+- `target_platform` (`str`): The target platform to connect to. Must be one of `"unix"` or `"windows"`. When
+                             `null`, the attribute is omitted from the resulting block and defaults to what
+                             Terraform has set internally (`"unix"`). Can only be set when `type` is `"ssh"` or
+                             `null`.
+- `bastion_host` (`str`): The address of a bastion host to hop the connection through. When `null`, the attribute
+                          is omitted from the resulting block. Can only be set when `type` is `"ssh"` or `null`.
+- `bastion_host_key` (`str`): The public key from the bastion host or the signing CA. This is used to verify the
+                              connection. When `null`, the attribute is omitted from the resulting block. Can
+                              only be set when `type` is `"ssh"` or `null`.
+- `bastion_port` (`number`): The port to use for the bastion connection. When `null`, the attribute is omitted
+                             from the resulting block. Can only be set when `type` is `"ssh"` or `null`.
+- `bastion_user` (`str`): The user to use for the bastion connection. When `null`, the attribute is omitted
+                          from the resulting block. Can only be set when `type` is `"ssh"` or `null`.
+- `bastion_password` (`str`): The password to use for the bastion connection. When `null`, the attribute is
+                              omitted from the resulting block. Can only be set when `type` is `"ssh"` or `null`.
+- `bastion_private_key` (`str`): The contents of an SSH key file to use for the bastion connection. When `null`,
+                                 the attribute is omitted from the resulting block. Can only be set when `type` is
+                                 `"ssh"` or `null`.
+- `bastion_certificate` (`str`): The contents of a signed CA certificate to be used in conjunction with the
+                                 `bastion_private_key` arg. When `null`, the attribute is omitted from the
+                                 resulting block. Can only be set when `type` is `"ssh"` or `null`.
+- `https` (`bool`): Whether to connect using HTTPS as opposed to HTTP. When `null`, the attribute is omitted from
+                    the resulting block. Can only be set when `type` is `"winrm"`.
+- `insecure` (`bool`): Whether to skip validation of the HTTPS certificate chain. When `null`, the attribute is
+                       omitted from the resulting block. Can only be set when `type` is `"winrm"`.
+- `use_ntlm` (`bool`): Whether to use NTLM authentication. When `null`, the attribute is omitted from the
+                       resulting block. Can only be set when `type` is `"winrm"`.
+- `cacert` (`str`): The CA certificate to validate against. When `null`, the attribute is omitted from the
+                    resulting block. Can only be set when `type` is `"winrm"`.
+
+**Returns**:
+- An object that can be used as a `connection` sub block on any `remote-exec` or `file` `provisioner` meta-argument block.

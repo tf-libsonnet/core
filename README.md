@@ -18,7 +18,7 @@
 
 This repository contains [Jsonnet](https://jsonnet.org/) functions for generating Terraform code.
 
-Learn more about `tf.libsonnet` [here](https://docs.tflibsonnet.com).
+Learn more about `tf.libsonnet` at [docs.tflibsonnet.com](https://docs.tflibsonnet.com/docs).
 
 ## Usage
 

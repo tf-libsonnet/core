@@ -328,6 +328,8 @@ local withOutputDoc =
       - `value` (`string`): The expression to bind to the output name.
       - `description` (`string`): The description of the output. When `null`, the `description` field is omitted from
                                   the object.
+      - `sensitive` (`bool`): Whether the output contains sensitive information. When `null`, the `sensitive` field is
+                              omitted from the object.
 
       **Returns**:
       - A mixin object that injects the new output into the root Terraform configuration.
@@ -336,12 +338,19 @@ local withOutputDoc =
       d.arg('name', d.T.string),
       d.arg('value', d.T.string),
       d.arg('description', d.T.string, d.T.nil),
+      d.arg('sensitive', d.T.bool, d.T.nil),
     ],
   );
-local withOutput(name, value, description=null) =
+local withOutput(name, value, description=null, sensitive=null) =
   local maybeDescription =
     if description != null then
       { description: description }
+    else
+      {};
+
+  local maybeSensitive =
+    if sensitive != null then
+      { sensitive: sensitive }
     else
       {};
 
@@ -349,7 +358,8 @@ local withOutput(name, value, description=null) =
     output+: {
       [name]:
         { value: value }
-        + maybeDescription,
+        + maybeDescription
+        + maybeSensitive,
     },
   };
 
@@ -377,6 +387,29 @@ local withOutputMap(map) =
   ]);
 
 
+local withSensitiveOutputMapDoc =
+  d.fn(
+    |||
+      `tf.withSensitiveOutputMap` injects all the key value pairs of the input map as Terraform `output` blocks with
+      `sensitive` set to `true` into the root configuration.
+
+      **Args**:
+      - `map` (`map[str, str]`): Map of output keys to output values.
+
+      **Returns**:
+      - A mixin object that injects all the key value pairs as output blocks.
+    |||,
+    [
+      d.arg('map', d.T.object),
+    ],
+  );
+local withSensitiveOutputMap(map) =
+  h.mergeAll([
+    withOutput(i.k, i.v, sensitive=true)
+    for i in h.objItems(map)
+  ]);
+
+
 local withOutputListDoc =
   d.fn(
     |||
@@ -385,8 +418,8 @@ local withOutputListDoc =
 
       **Args**:
       - `outputs` (`list[obj]`): List of output configurations, where each element describes an `output` block. Each
-                                 element should have the keys `n` (for `name`), `v` (for `value`), and `d` (for
-                                 `description`).
+                                 element should have the keys `n` (for `name`), `v` (for `value`), `d` (for
+                                 `description`), and `s` (for `sensitive`).
 
       **Returns**:
       - A mixin object that injects all the outputs as output blocks.
@@ -397,7 +430,7 @@ local withOutputListDoc =
   );
 local withOutputList(outputs) =
   h.mergeAll([
-    withOutput(o.n, o.v, std.get(o, 'd', null))
+    withOutput(o.n, o.v, std.get(o, 'd', null), std.get(o, 's', null))
     for o in outputs
   ]);
 
@@ -488,6 +521,8 @@ local withLocalList(locals) =
   withOutput:: withOutput,
   '#withOutputMap':: withOutputMapDoc,
   withOutputMap:: withOutputMap,
+  '#withSensitiveOutputMap':: withSensitiveOutputMapDoc,
+  withSensitiveOutputMap:: withSensitiveOutputMap,
   '#withOutputList':: withOutputListDoc,
   withOutputList:: withOutputList,
   '#withLocal':: withLocalDoc,

@@ -22,11 +22,12 @@ local tf = import "github.com/tf-libsonnet/core/main.libsonnet"
 * [`fn withLocalList(locals)`](#fn-withlocallist)
 * [`fn withLocalMap(map)`](#fn-withlocalmap)
 * [`fn withModule(name, source, inpuuts, version='null', _meta={})`](#fn-withmodule)
-* [`fn withOutput(name, value, description='null')`](#fn-withoutput)
+* [`fn withOutput(name, value, description='null', sensitive='null')`](#fn-withoutput)
 * [`fn withOutputList(outputs)`](#fn-withoutputlist)
 * [`fn withOutputMap(map)`](#fn-withoutputmap)
 * [`fn withProvider(name, attrs, alias='null', src='null', version='null')`](#fn-withprovider)
 * [`fn withResource(type, label, attrs, _meta={})`](#fn-withresource)
+* [`fn withSensitiveOutputMap(map)`](#fn-withsensitiveoutputmap)
 * [`fn withVariable(name, isRequired=true, type='null', description='null', default='null')`](#fn-withvariable)
 * [`obj meta`](#obj-meta)
   * [`fn new(count='null', depends_on='null', for_each='null', provider='null', lifecycle='null', connection='null', provisioner='null')`](#fn-metanew)
@@ -239,7 +240,7 @@ Instead, make an explicit binding to the outer object using `local`.
 ### fn withOutput
 
 ```ts
-withOutput(name, value, description='null')
+withOutput(name, value, description='null', sensitive='null')
 ```
 
 `tf.withOutput` injects a new Terraform `output` block into the root configuration.
@@ -249,6 +250,8 @@ withOutput(name, value, description='null')
 - `value` (`string`): The expression to bind to the output name.
 - `description` (`string`): The description of the output. When `null`, the `description` field is omitted from
                             the object.
+- `sensitive` (`bool`): Whether the output contains sensitive information. When `null`, the `sensitive` field is
+                        omitted from the object.
 
 **Returns**:
 - A mixin object that injects the new output into the root Terraform configuration.
@@ -265,8 +268,8 @@ configuration.
 
 **Args**:
 - `outputs` (`list[obj]`): List of output configurations, where each element describes an `output` block. Each
-                           element should have the keys `n` (for `name`), `v` (for `value`), and `d` (for
-                           `description`).
+                           element should have the keys `n` (for `name`), `v` (for `value`), `d` (for
+                           `description`), and `s` (for `sensitive`).
 
 **Returns**:
 - A mixin object that injects all the outputs as output blocks.
@@ -343,6 +346,22 @@ Instead, make an explicit binding to the outer object using `local`.
 
 **Returns**:
 - A mixin object that injects the new resource into the root Terraform configuration.
+
+
+### fn withSensitiveOutputMap
+
+```ts
+withSensitiveOutputMap(map)
+```
+
+`tf.withSensitiveOutputMap` injects all the key value pairs of the input map as Terraform `output` blocks with
+`sensitive` set to `true` into the root configuration.
+
+**Args**:
+- `map` (`map[str, str]`): Map of output keys to output values.
+
+**Returns**:
+- A mixin object that injects all the key value pairs as output blocks.
 
 
 ### fn withVariable

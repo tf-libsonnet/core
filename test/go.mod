@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/google/go-jsonnet v0.19.1
-	github.com/gruntwork-io/terratest v0.41.7
+	github.com/gruntwork-io/terratest v0.41.10
 	github.com/onsi/gomega v1.24.2
 )
 

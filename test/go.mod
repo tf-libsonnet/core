@@ -3,7 +3,7 @@ module github.com/fensak-io/tf-libsonnet/test
 go 1.19
 
 require (
-	github.com/google/go-jsonnet v0.19.1
+	github.com/google/go-jsonnet v0.20.0
 	github.com/gruntwork-io/terratest v0.41.11
 	github.com/onsi/gomega v1.27.2
 )

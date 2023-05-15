@@ -17,7 +17,7 @@ jobs:
         with:
           token: ${{ secrets.TFLIBSONNET_CI_GITHUB_TOKEN }}
 
-      - uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9 # v4.0.0
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
         with:
           go-version: 1.19
 
@@ -27,7 +27,7 @@ jobs:
           docsonnet main.libsonnet
 
       - name: import gpg signing key
-        uses: crazy-max/ghaction-import-gpg@111c56156bcc6918c056dbef52164cfa583dc549 # v5.2.0
+        uses: crazy-max/ghaction-import-gpg@72b6676b71ab476b77e676928516f6982eef7a41 # v5.3.0
         with:
           gpg_private_key: ${{ secrets.TFLIBSONNET_CI_GPG_KEY }}
           passphrase: ${{ secrets.TFLIBSONNET_CI_GPG_PASSPHRASE }}
@@ -57,15 +57,15 @@ jobs:
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
-      - uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9 # v4.0.0
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
         with:
           go-version: 1.19
 
       - name: install jsonnet-bundler, jsonnetfmt, and jsonnet-lint
         run: |
           go install github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
-          go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
-          go install github.com/google/go-jsonnet/cmd/jsonnet-lint@latest
+          go install github.com/google/go-jsonnet/cmd/jsonnetfmt@v0.20.0
+          go install github.com/google/go-jsonnet/cmd/jsonnet-lint@v0.20.0
 
       - name: check for fmt
         run: |
@@ -85,7 +85,7 @@ jobs:
     needs: docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9 # v4.0.0
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
         with:
           go-version: 1.19
 
@@ -109,7 +109,7 @@ jobs:
           terraform_version: 1.3.6
           terraform_wrapper: false
 
-      - uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9 # v4.0.0
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
         with:
           go-version: 1.19
           cache: true

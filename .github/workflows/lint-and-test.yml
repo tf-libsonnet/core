@@ -64,8 +64,8 @@ jobs:
       - name: install jsonnet-bundler, jsonnetfmt, and jsonnet-lint
         run: |
           go install github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
-          go install github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
-          go install github.com/google/go-jsonnet/cmd/jsonnet-lint@latest
+          go install github.com/google/go-jsonnet/cmd/jsonnetfmt@v0.20.0
+          go install github.com/google/go-jsonnet/cmd/jsonnet-lint@v0.20.0
 
       - name: check for fmt
         run: |
